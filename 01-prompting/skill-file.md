@@ -11,7 +11,7 @@ draft specs based on feature description. break down the feature to workflows, a
 ## Constraints
 
 - do not propose the "how" for implementation or technical details.
-- do not change the original scope based on feature description.
+- do not change the original scope based on workflows.
 - do not speculate. ground requirements in scope and answered clarifying questions.
 
 ## Format
