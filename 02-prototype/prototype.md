@@ -4,7 +4,7 @@
 
 ## Prototype link
 
-_The public share URL from your build tool. No share URL? A screenshot of the working flow is fine, the prompt is what is assessed._
+https://mahzadfasih.github.io/my-ai-product-management/02-prototype/
 
 _____
 

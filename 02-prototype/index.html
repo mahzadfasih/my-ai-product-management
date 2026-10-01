@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <title>Signal: PRD to Reach × Impact</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M3 12h3l3-8 4 16 3-8h5"/></svg>
+      </div>
+      <span class="brand-name">Signal</span>
+      <span class="brand-sub">Product Strategy</span>
+      <span class="pill-proto">Prototype</span>
+    </div>
+    <nav class="stepper" id="stepper" aria-label="Progress">
+      <button class="step active" data-step="input"><span class="num">1</span><span class="label">Input PRD</span></button>
+      <span class="step-sep"></span>
+      <button class="step" data-step="extract" disabled><span class="num">2</span><span class="label">Workflows</span></button>
+      <span class="step-sep"></span>
+      <button class="step" data-step="research" disabled><span class="num">3</span><span class="label">Research</span></button>
+      <span class="step-sep"></span>
+      <button class="step" data-step="results" disabled><span class="num">4</span><span class="label">Prioritize</span></button>
+    </nav>
+    <div class="top-actions">
+      <button class="btn ghost sm" id="rubricBtn" data-icon="info">Scoring rubric</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- 1 · INPUT -->
+    <section class="view active" id="view-input">
+      <div class="hero">
+        <span class="hero-badge"><span class="dot"></span>Forum research for product strategy</span>
+        <h1>Turn a PRD into a <span class="grad">map of customer pain</span></h1>
+        <p>Signal pulls the key workflows out of your requirements doc, then scans customer forums to estimate how many customers hit each problem (Reach) and how much it hurts (Impact).</p>
+      </div>
+
+      <div class="input-grid">
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3 class="card-title">Product requirements document</h3>
+              <p class="card-sub">Markdown or plain text. Headings and user stories improve extraction.</p>
+            </div>
+            <div class="tabs" role="tablist">
+              <button class="tab active" data-tab="upload">Upload</button>
+              <button class="tab" data-tab="paste">Paste</button>
+            </div>
+          </div>
+          <div class="card-body">
+            <div id="docEmpty">
+              <div id="tab-upload">
+                <div class="dropzone" id="dropzone">
+                  <div class="dz-icon" data-icon="upload"></div>
+                  <h3>Drop your PRD here</h3>
+                  <p>or <button class="link" id="browseBtn">browse files</button> · .md, .txt</p>
+                  <input type="file" id="fileInput" accept=".md,.txt,.markdown,text/plain" hidden />
+                </div>
+              </div>
+              <div id="tab-paste" class="hidden">
+                <textarea class="paste-area" id="pasteArea" placeholder="# My product PRD&#10;&#10;## Key workflows&#10;### Workflow 1&#10;As a user, I want to…"></textarea>
+                <div style="display:flex;justify-content:flex-end;margin-top:10px">
+                  <button class="btn sm" id="usePasteBtn">Use pasted text</button>
+                </div>
+              </div>
+              <div class="divider-or">or try the demo</div>
+              <div class="sample-card">
+                <div class="doc-thumb"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+                <div class="meta">
+                  <b>Atlas Review: Cloud Design Review</b>
+                  <span>Sample PRD · v0.3 draft · 8 workflows · ~700 words</span>
+                </div>
+                <button class="btn primary sm" id="loadSampleBtn">Load sample PRD</button>
+              </div>
+            </div>
+            <div id="docLoaded" class="hidden">
+              <div class="loaded-doc">
+                <span class="check" data-icon="check"></span>
+                <div class="doc-thumb" style="width:34px;height:42px;padding:7px 6px"><i></i><i></i><i></i><i></i></div>
+                <div style="flex:1;min-width:0">
+                  <b id="docName" style="display:block;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"></b>
+                  <span id="docMeta" class="muted" style="font-size:12.5px"></span>
+                </div>
+                <button class="btn ghost sm" id="previewToggle">Preview</button>
+                <button class="icon-btn" id="clearDocBtn" title="Remove" data-icon="x"></button>
+              </div>
+              <div class="preview-box doc hidden" id="previewBox"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3 class="card-title">Research settings</h3>
+              <p class="card-sub">Where and how far back Signal looks for customer evidence.</p>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="field">
+              <div class="field-label">Sources <span id="sourceCount"></span></div>
+              <div class="source-list" id="sourceList"></div>
+            </div>
+            <div class="field">
+              <div class="field-label">Time window</div>
+              <div class="segmented" id="windowSeg">
+                <button data-v="6">6 months</button>
+                <button data-v="12" class="active">12 months</button>
+                <button data-v="24">24 months</button>
+              </div>
+            </div>
+            <div class="field">
+              <div class="field-label">Customer segment <span>optional</span></div>
+              <input class="text-input" id="segmentInput" value="AEC design &amp; construction teams" />
+            </div>
+          </div>
+          <div class="cta-row">
+            <span class="hint" id="ctaHint">Load a PRD to continue</span>
+            <button class="btn primary lg" id="extractBtn" disabled>Extract workflows <span data-icon="arrowRight"></span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="how-it-works">
+        <div class="how"><span class="n">1</span><div><b>Extract</b><span>Identifies the workflows and use cases in the PRD and links each one back to its source text.</span></div></div>
+        <div class="how"><span class="n">2</span><div><b>Research</b><span>Searches forums, ideas portals and reviews for matching customer conversations.</span></div></div>
+        <div class="how"><span class="n">3</span><div><b>Score</b><span>Estimates Reach and Impact (1–5) with evidence, rationale and a confidence level.</span></div></div>
+      </div>
+    </section>
+
+    <!-- 2 · EXTRACT -->
+    <section class="view" id="view-extract">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow">Step 2 · Workflows</div>
+          <h1>Review extracted workflows</h1>
+          <p>Edit names, exclude anything out of scope, or add a workflow Signal missed. Click a workflow to see where it appears in the PRD.</p>
+        </div>
+        <div class="page-actions">
+          <button class="btn primary lg" id="researchBtn" disabled>Research customer forums <span data-icon="arrowRight"></span></button>
+        </div>
+      </div>
+      <div class="extract-grid">
+        <div class="card doc-card">
+          <div class="card-head">
+            <div>
+              <h3 class="card-title"><span data-icon="file"></span><span id="exDocName"></span></h3>
+            </div>
+            <span class="status-line" id="exStatus"></span>
+          </div>
+          <div style="position:relative;overflow:hidden">
+            <div class="doc-scroll"><div class="doc" id="exDoc"></div></div>
+            <div class="scanline" id="scanline"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3 class="card-title">Workflows <span class="chip" id="wfCount">0</span></h3>
+              <p class="card-sub" id="wfSub">Reading document…</p>
+            </div>
+          </div>
+          <div class="wf-list" id="wfList"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 · RESEARCH -->
+    <section class="view" id="view-research">
+      <div class="card research-top">
+        <div>
+          <h2><span class="pulse-dot" id="pulseDot"></span><span id="rsTitle">Scanning customer forums</span></h2>
+          <div class="muted" style="font-size:13px;margin-top:4px" id="rsSub"></div>
+        </div>
+        <div class="page-actions">
+          <button class="btn ghost sm" id="skipBtn">Skip animation</button>
+          <button class="btn primary" id="viewResultsBtn" disabled>View results <span data-icon="arrowRight"></span></button>
+        </div>
+        <div class="progress"><i id="rsProgress"></i></div>
+        <div class="counters">
+          <div class="counter"><div class="k">Threads scanned</div><div class="v" id="cScanned">0</div></div>
+          <div class="counter"><div class="k">Relevant matches</div><div class="v" id="cMatches">0</div></div>
+          <div class="counter"><div class="k">Sources</div><div class="v" id="cSources">0</div></div>
+          <div class="counter"><div class="k">Elapsed</div><div class="v" id="cElapsed">0.0s</div></div>
+        </div>
+      </div>
+      <div class="research-grid">
+        <div class="card">
+          <div class="card-head"><h3 class="card-title">Workflow coverage</h3><span class="muted" style="font-size:12px">Query, cluster, score</span></div>
+          <div class="wf-progress" id="wfProgress"></div>
+        </div>
+        <div class="card">
+          <div class="card-head"><h3 class="card-title">Live feed</h3><span class="status-line"><span class="spinner" id="feedSpin"></span><span id="feedStatus">Streaming</span></span></div>
+          <div class="feed" id="feed"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 · RESULTS -->
+    <section class="view" id="view-results">
+      <div class="page-head">
+        <div>
+          <div class="eyebrow" id="resEyebrow">Step 4 · Prioritize</div>
+          <h1>Reach × Impact</h1>
+          <p id="resSub"></p>
+        </div>
+        <div class="page-actions">
+          <button class="btn ghost" id="rerunBtn" data-icon="refresh">Start over</button>
+          <button class="btn" id="copyBtn" data-icon="copy">Copy summary</button>
+          <button class="btn primary" id="csvBtn" data-icon="download">Export CSV</button>
+        </div>
+      </div>
+      <div class="kpis" id="kpis"></div>
+      <div class="results-grid">
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3 class="card-title">Prioritization matrix</h3>
+              <p class="card-sub">Hover for details, click to open evidence</p>
+            </div>
+          </div>
+          <div class="matrix-wrap" id="matrix"></div>
+          <div class="matrix-legend">
+            <span><i class="lg-dot"></i>AI estimate</span>
+            <span><i class="lg-ring"></i>Adjusted by you</span>
+            <span>Position uses the underlying signal strength, so equal scores don't overlap</span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <div>
+              <h3 class="card-title">Ranked workflows</h3>
+              <p class="card-sub">Priority = Reach × Impact (1–25)</p>
+            </div>
+            <div class="table-tools">
+              <select class="select" id="sortSel" aria-label="Sort by">
+                <option value="priority">Sort: Priority</option>
+                <option value="reach">Sort: Reach</option>
+                <option value="impact">Sort: Impact</option>
+                <option value="mentions">Sort: Mentions</option>
+                <option value="prd">Sort: PRD order</option>
+              </select>
+            </div>
+          </div>
+          <div style="overflow-x:auto"><table class="rank" id="rankTable"></table></div>
+        </div>
+      </div>
+      <div class="insights" id="insights"></div>
+      <div class="disclaimer"><span data-icon="info"></span>Prototype: forum results and scores are simulated for demonstration. Estimates are directional; validate with customer interviews before committing roadmap decisions.</div>
+    </section>
+  </main>
+
+  <div class="scrim" id="scrim"></div>
+  <aside class="drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-head">
+      <div class="crumb" id="drawerCrumb"></div>
+      <button class="icon-btn" id="prevBtn" title="Previous (↑)" data-icon="chevUp"></button>
+      <button class="icon-btn" id="nextBtn" title="Next (↓)" data-icon="chevDown"></button>
+      <button class="icon-btn" id="closeDrawer" title="Close (Esc)" data-icon="x"></button>
+    </div>
+    <div class="drawer-body" id="drawerBody"></div>
+  </aside>
+
+  <div class="modal" id="rubricModal" role="dialog" aria-modal="true" aria-labelledby="rubricTitle">
+    <div class="dialog">
+      <div class="card-head">
+        <div>
+          <h3 class="card-title" id="rubricTitle">Scoring rubric</h3>
+          <p class="card-sub">How Signal turns forum evidence into 1–5 scores</p>
+        </div>
+        <button class="icon-btn" data-close data-icon="x"></button>
+      </div>
+      <div class="rubric" id="rubricBody"></div>
+    </div>
+  </div>
+
+  <div class="tooltip" id="tooltip"></div>
+  <div class="toast" id="toast"><span data-icon="check"></span><span id="toastMsg"></span></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
