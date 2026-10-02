@@ -4,6 +4,7 @@
 
 ## Prototype link
 
+https://mahzadfasih.github.io/my-ai-product-management/02-prototype/#sample
 _____
 
 ## What it demonstrates
