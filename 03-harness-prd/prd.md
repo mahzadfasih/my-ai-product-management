@@ -1,12 +1,34 @@
 # AI PRD · Juno
 
-> Module 3 · Harness / AI PRD. The AI product requirements doc specifying all six harness surfaces, built with the **M3 · AI PRD Builder** (archetype and starting settings from the **M3 · Harness Architecture Decider**). Paste the tool's markdown over this file.
-
 ## Problem & user
 
 _The user problem and who has it._
 
 _____
+# Harness Sketch
+
+Describe Juno's role and task: Juno assigns reach and impact score to workflows based on customer feedback in online forums
+
+_Rough first pass, Module 3 Lab 1. Not the AI PRD._
+
+## 01 · Context
+the raw signals, the sales pipeline snapshot, and product strategy one pager so it has customer and business value context
+
+## 02 · Tools
+it can assign a score of 1 to 5 for reach and for impact for each of the given workflows.
+
+## 03 · Loop
+one pass per signal
+
+## 04 · Memory
+a summary of customer sentiment. if human edits the suggested score, capture and store the change.
+
+## 05 · Permissions
+it can draft and post reach and impact scores. it can't change the workflows.
+
+## 06 · Verification
+the PM will verify and approve.
+
 
 ## The harness
 
