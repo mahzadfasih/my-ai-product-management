@@ -40,4 +40,3 @@ After 3 failed retrievals, degrade to "cautious mode" (no priorities, just threa
 
 Any thread mentioning "churn", "legal", or "security" requires PM review.
 
-_(missing)_
